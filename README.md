@@ -18,7 +18,7 @@ Navigate to the "USB Servers" tab on the top navigation and follow the direction
 
 It's possible to install the server software on an embedded Linux device like a Raspberry Pi or a BeagleBone Black board. VirtualHere provides a handy script to install the server software on a Linux host: <https://github.com/virtualhere/script>
 
-For a detailed tutorial on how to set up VirtualHere USB Server on a BeagleBone Black, see https://blog.golioth.io/usb-docker-windows-macos/
+For a detailed tutorial on how to set up VirtualHere USB Server on a BeagleBone Black, see https://cdwilson.dev/articles/usb-over-ip-with-virtualhere/
 
 > [!NOTE]
 > Since the VirtualHere client is going to be running in console only mode within a Linux container, the VirtualHere server requires a paid license to be installed on the server hardware (see <https://www.virtualhere.com/purchase> for pricing details).
