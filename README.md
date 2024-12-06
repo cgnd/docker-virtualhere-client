@@ -94,8 +94,8 @@ root@orbstack:/# vhclientarm64 -t "LIST"
 VirtualHere Client IPC, below are the available devices:
 (Value in brackets = address, * = Auto-Use)
 
-BeagleBone Black (BeagleBone:7575) 
-   --> TTL232R-3V3 (BeagleBone.11) 
+BeagleBone Black (BeagleBone:7575)
+   --> TTL232R-3V3 (BeagleBone.11)
 
 Auto-Find currently on
 Auto-Use All currently off
@@ -117,7 +117,7 @@ root@orbstack:/# vhclientarm64 -t "LIST"
 VirtualHere Client IPC, below are the available devices:
 (Value in brackets = address, * = Auto-Use)
 
-BeagleBone Black (BeagleBone:7575) 
+BeagleBone Black (BeagleBone:7575)
    --> TTL232R-3V3 (BeagleBone.11) (In-use by you)
 
 Auto-Find currently on
@@ -135,6 +135,25 @@ Bus 002 Device 001: ID 1d6b:0003 Linux 6.11.9-orbstack-00279-g4cf512143f2e vhci_
 Bus 001 Device 002: ID 0403:6001 FTDI TTL232R-3V3
 Bus 001 Device 001: ID 1d6b:0002 Linux 6.11.9-orbstack-00279-g4cf512143f2e vhci_hcd USB/IP Virtual Host Controller
 ```
+
+> [!IMPORTANT]
+> Although the USB device is showing up in the container, the corresponding `/dev/ttyUSB0` device is not available in the container. This appears to be an issue with Docker Desktop (see <https://github.com/docker/for-win/issues/4548>).
+>
+> However, the `/dev/ttyUSB0` device does show up in *new* containers. It appears that the workaround is to use a dedicated container for managing the VirtualHere client, and separate containers to actually access the connected USB devices.
+>
+> In the example above, running a second container allows access to the `/dev/ttyUSB0` device:
+>
+> ```sh
+> ❯ docker run -it --rm --privileged --name vhclient2 cgnd/vhclientarm64
+> root@d766c34f1d6e:/# lsusb         
+> Bus 002 Device 001: ID 1d6b:0003 Linux 6.10.14-linuxkit vhci_hcd USB/IP Virtual Host Controller
+> Bus 001 Device 004: ID 0403:6001 FTDI TTL232R-3V3
+> Bus 001 Device 001: ID 1d6b:0002 Linux 6.10.14-linuxkit vhci_hcd USB/IP Virtual Host Controller
+> root@d766c34f1d6e:/# ls /dev/ttyUSB0
+> /dev/ttyUSB0
+> ```
+>
+> If anybody knows how to get the device to show up in the original container, please feel free to file an issue in this repo!
 
 ## Alternatives to VirtualHere
 
